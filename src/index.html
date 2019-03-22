@@ -19,31 +19,36 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">$</span>
             </div>
-            <input type="text"
+            <input type="number"
                    class="form-control"
-                   aria-label="Amount">
+                   aria-label="Amount"
+                   id="bill-input"
+                   value=0>
         </div>
         <div class="btn-group"
              role="group"
              aria-label="Basic example">
             <button type="button"
                     class="btn btn-secondary"
-                    data-amount="10">10%</button>
+                    data-percent="10">10%</button>
+            <button type="button"
+                    class="btn btn-secondary"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+                    data-percent="15">15%</button>
             <button type="button"
                     class="btn btn-secondary"
-                    data-amount="15">15%</button>
-            <button type="button"
-                    class="btn btn-secondary"
-                    data-amount="20">20%</button>
+                    data-percent="20">20%</button>
         </div>
-        <div id=""></div>
-        <ul class="list-group">
-            <li class="list-group-item">Bill Amount: <span id="billAmount"></span></li>
-            <li class="list-group-item">Tip Percentage: <span id="tipPercent"></span></li>
-            <li class="list-group-item">Amount of tip: <span id="tipAmount"></span></li>
-            <li class="list-group-item">Total to be Paid: <span id="totalAmount"></span></li>
+        <div id="caption-container" class="italic">
+            You are tipping <span id="caption-percent"></span>
+        </div>
+        <ul id="output-container" class="list-group">
+            <li class="list-group-item">Bill Amount: <span id="bill-output"></span></li>
+            <li class="list-group-item">Tip Percentage: <span id="percent-output"></span></li>
+            <li class="list-group-item">Amount of tip: <span id="tip-output"></span></li>
+            <li class="list-group-item italic">Total to be Paid: <span id="total-output"></span></li>
         </ul>
     </div>
+    <script src="~/dist/index.js" ></script>
 </body>
 
 </html>
