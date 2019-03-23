@@ -30,7 +30,7 @@ function calculateTip() {
 
     if (billInput.valueAsNumber < 0){
         tipResult = {
-            classToggle: c => billInput.classList.add(c),
+            classToggle: billInput.classList.add,
             percent: ``,
             bill: ``,
             tip: ``,
@@ -43,7 +43,7 @@ function calculateTip() {
         const total = billInput.valueAsNumber + tip;
     
         tipResult = {
-            classToggle: c => billInput.classList.remove(c),
+            classToggle: billInput.classList.remove,
             percent: `${button.dataset.percent}%`,        
             bill: usd.format(billInput.valueAsNumber),
             tip: usd.format(tip),
@@ -55,7 +55,7 @@ function calculateTip() {
 }
 
 function displayTip(tipResult: TipResult) {
-    tipResult.classToggle(`border-danger`);
+    tipResult.classToggle.call(billInput.classList, `border-danger`);
     percentOutput.innerText = tipResult.percent;
     captionPercent.innerText = tipResult.percent;
     billOutput.innerText = tipResult.bill;
