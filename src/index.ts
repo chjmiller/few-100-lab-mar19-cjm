@@ -1,15 +1,14 @@
 import './styles.css';
+import { TipResult } from './tipResult';
 
-const usd = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
-const billInput = document.getElementById('bill-input') as HTMLInputElement;
-const captionContainer = document.getElementById('caption-container');
-const captionPercent = document.getElementById('caption-percent');
-const outputContainer = document.getElementById('output-container');
-const billOutput = document.getElementById('bill-output');
-const percentOutput = document.getElementById('percent-output');
-const tipOutput = document.getElementById('tip-output');
-const totalOutput = document.getElementById('total-output');
-const percentButtons = document.querySelectorAll('[data-percent]') as NodeListOf<HTMLButtonElement>;
+const usd = new Intl.NumberFormat(`en-US`, { style: `currency`, currency: `USD` });
+const billInput = document.getElementById(`bill-input`) as HTMLInputElement;
+const captionPercent = document.getElementById(`caption-percent`);
+const billOutput = document.getElementById(`bill-output`);
+const percentOutput = document.getElementById(`percent-output`);
+const tipOutput = document.getElementById(`tip-output`);
+const totalOutput = document.getElementById(`total-output`);
+const percentButtons = document.querySelectorAll(`[data-percent]`) as NodeListOf<HTMLButtonElement>;
 
 function selectButton(buttons: NodeListOf<HTMLButtonElement>, callbackfn: (value: HTMLButtonElement) => boolean) {
     let button: HTMLButtonElement;
@@ -27,15 +26,41 @@ if (localStorage.preferredPercent === null)
 selectButton(percentButtons, b => b.dataset.percent === localStorage.preferredPercent).disabled = true;
 
 function calculateTip() {
-    let button = selectButton(percentButtons, b => b.disabled);
-    let percentText = `${button.dataset.percent}%`;
-    percentOutput.innerText = percentText;
-    captionPercent.innerText = percentText;
-    let tip = (parseInt(button.dataset.percent) * billInput.valueAsNumber * .01);
-    let total = billInput.valueAsNumber + tip;
-    billOutput.innerText = usd.format(billInput.valueAsNumber);
-    tipOutput.innerText = usd.format(tip);
-    totalOutput.innerText = usd.format(total);
+    let tipResult: TipResult;
+
+    if (billInput.valueAsNumber < 0){
+        tipResult = {
+            classToggle: c => billInput.classList.add(c),
+            percent: ``,
+            bill: ``,
+            tip: ``,
+            total: ``
+        };
+    }
+    else{
+        const button = selectButton(percentButtons, b => b.disabled);
+        const tip = (parseInt(button.dataset.percent) * billInput.valueAsNumber * .01);
+        const total = billInput.valueAsNumber + tip;
+    
+        tipResult = {
+            classToggle: c => billInput.classList.remove(c),
+            percent: `${button.dataset.percent}%`,        
+            bill: usd.format(billInput.valueAsNumber),
+            tip: usd.format(tip),
+            total: usd.format(total)
+        };
+    }
+
+    displayTip(tipResult);
+}
+
+function displayTip(tipResult: TipResult) {
+    tipResult.classToggle(`border-danger`);
+    percentOutput.innerText = tipResult.percent;
+    captionPercent.innerText = tipResult.percent;
+    billOutput.innerText = tipResult.bill;
+    tipOutput.innerText = tipResult.tip;
+    totalOutput.innerText = tipResult.total;
 }
 
 calculateTip();
@@ -48,8 +73,8 @@ function onAmountClick(e: Event) {
     calculateTip();
 }
 
-percentButtons.forEach(el => el.addEventListener('click',  onAmountClick));
-billInput.addEventListener('keyup', calculateTip);
-billInput.addEventListener('change', calculateTip);
-billInput.addEventListener('mouseup', calculateTip);
+percentButtons.forEach(el => el.addEventListener(`click`,  onAmountClick));
+billInput.addEventListener(`keyup`, calculateTip);
+billInput.addEventListener(`change`, calculateTip);
+billInput.addEventListener(`mouseup`, calculateTip);
 
