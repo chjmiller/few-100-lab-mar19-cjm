@@ -1,5 +1,5 @@
-export interface TipResult {
-     percent : string;
+export interface TipContent {
+     percent: string;
      tip: string;
      bill: string;
      total: string;

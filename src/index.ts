@@ -1,6 +1,7 @@
 import './styles.css';
-import { TipResult } from './tipResult';
+import { TipContent } from './tipContent';
 
+const defaultPercentage = 15;
 const usd = new Intl.NumberFormat(`en-US`, { style: `currency`, currency: `USD` });
 const billInput = document.getElementById(`bill-input`) as HTMLInputElement;
 const captionPercent = document.getElementById(`caption-percent`);
@@ -10,7 +11,7 @@ const tipOutput = document.getElementById(`tip-output`);
 const totalOutput = document.getElementById(`total-output`);
 const percentButtons = document.querySelectorAll(`[data-percent]`) as NodeListOf<HTMLButtonElement>;
 
-function selectButton(buttons: NodeListOf<HTMLButtonElement>, callbackfn: (value: HTMLButtonElement) => boolean) {
+function findButton(buttons: NodeListOf<HTMLButtonElement>, callbackfn: (value: HTMLButtonElement) => boolean) {
     let button: HTMLButtonElement;
     buttons.forEach(b => {
         if (!button && callbackfn(b))
@@ -20,61 +21,50 @@ function selectButton(buttons: NodeListOf<HTMLButtonElement>, callbackfn: (value
     return button;
 }
 
-if (localStorage.preferredPercent === null)
-    localStorage.preferredPercent = 15;
+function displayTip() {
+    const tipContent = billInput.valueAsNumber >= 0 ? calculateTip() : {
+        classToggle: billInput.classList.add,
+        percent: ``,
+        bill: ``,
+        tip: ``,
+        total: ``
+    };
 
-selectButton(percentButtons, b => b.dataset.percent === localStorage.preferredPercent).disabled = true;
-
-function calculateTip() {
-    let tipResult: TipResult;
-
-    if (billInput.valueAsNumber < 0){
-        tipResult = {
-            classToggle: billInput.classList.add,
-            percent: ``,
-            bill: ``,
-            tip: ``,
-            total: ``
-        };
-    }
-    else{
-        const button = selectButton(percentButtons, b => b.disabled);
-        const tip = (parseInt(button.dataset.percent) * billInput.valueAsNumber * .01);
-        const total = billInput.valueAsNumber + tip;
-    
-        tipResult = {
-            classToggle: billInput.classList.remove,
-            percent: `${button.dataset.percent}%`,        
-            bill: usd.format(billInput.valueAsNumber),
-            tip: usd.format(tip),
-            total: usd.format(total)
-        };
-    }
-
-    displayTip(tipResult);
+    tipContent.classToggle.call(billInput.classList, `border-danger`);
+    percentOutput.innerText = tipContent.percent;
+    captionPercent.innerText = tipContent.percent;
+    billOutput.innerText = tipContent.bill;
+    tipOutput.innerText = tipContent.tip;
+    totalOutput.innerText = tipContent.total;
 }
 
-function displayTip(tipResult: TipResult) {
-    tipResult.classToggle.call(billInput.classList, `border-danger`);
-    percentOutput.innerText = tipResult.percent;
-    captionPercent.innerText = tipResult.percent;
-    billOutput.innerText = tipResult.bill;
-    tipOutput.innerText = tipResult.tip;
-    totalOutput.innerText = tipResult.total;
-}
+function calculateTip(): TipContent {
+    const button = findButton(percentButtons, b => b.disabled);
+    const tip = (parseInt(button.dataset.percent) * billInput.valueAsNumber * .01);
+    const total = billInput.valueAsNumber + tip;
 
-calculateTip();
+    return {
+        classToggle: billInput.classList.remove,
+        percent: `${button.dataset.percent}%`,
+        bill: usd.format(billInput.valueAsNumber),
+        tip: usd.format(tip),
+        total: usd.format(total)
+    };
+}
 
 function onAmountClick(e: Event) {
     const button = e.target as HTMLButtonElement;
     percentButtons.forEach(b => b.disabled = false);
     button.disabled = true;
     localStorage.preferredPercent = button.dataset.percent;
-    calculateTip();
+    displayTip();
 }
 
-percentButtons.forEach(el => el.addEventListener(`click`,  onAmountClick));
-billInput.addEventListener(`keyup`, calculateTip);
-billInput.addEventListener(`change`, calculateTip);
-billInput.addEventListener(`mouseup`, calculateTip);
+percentButtons.forEach(el => el.addEventListener(`click`, onAmountClick));
+[`keyup`, `change`, `mouseup`].forEach(ev => billInput.addEventListener(ev, displayTip));
 
+if (localStorage.preferredPercent === null)
+    localStorage.preferredPercent = defaultPercentage;
+
+findButton(percentButtons, b => b.dataset.percent === localStorage.preferredPercent).disabled = true;
+displayTip();
