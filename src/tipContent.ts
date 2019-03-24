@@ -3,5 +3,6 @@ export interface TipContent {
      tip: string;
      bill: string;
      total: string;
+     patron: string;
      classToggle: (...tokens: string[]) => void;
 }

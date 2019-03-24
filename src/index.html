@@ -4,10 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Webpack Showcase</title>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <body>
@@ -19,24 +17,21 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">$</span>
             </div>
-            <input type="number"
-                   class="form-control"
-                   aria-label="Amount"
-                   id="bill-input"
-                   value=0>
+            <input type="number" class="form-control" aria-label="Amount" id="bill-input" value=0>
+            <div class="input-group-prepend">
+                <span class="input-group-text">Patrons</span>
+            </div>
+            <input type="number" class="form-control" aria-label="Patrons" id="patron-input" value=1 min="1">
         </div>
-        <div class="btn-group"
-             role="group"
-             aria-label="Basic example">
-            <button type="button"
-                    class="btn btn-secondary"
-                    data-percent="10">10%</button>
-            <button type="button"
-                    class="btn btn-secondary"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-                    data-percent="15">15%</button>
-            <button type="button"
-                    class="btn btn-secondary"
-                    data-percent="20">20%</button>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-secondary" data-percent="10">10%</button>
+            <button type="button" class="btn btn-secondary" data-percent="15">15%</button>
+            <button type="button" class="btn btn-secondary" data-percent="20">20%</button>
+            <button type="button" class="btn btn-secondary" data-percent id="custom-percent-button">Custom</button>
+            <input type="number" class="form-control" hidden aria-label="Custom" id="custom-percent-input" min=0>
+            <div class="input-group-prepend" hidden id="custom-percent-caption">
+                <span class="input-group-text">%</span>
+            </div>
         </div>
         <div class="italic">
             You are tipping <span id="caption-percent"></span>
@@ -44,11 +39,12 @@
         <ul class="list-group">
             <li class="list-group-item">Bill Amount: <span id="bill-output"></span></li>
             <li class="list-group-item">Tip Percentage: <span id="percent-output"></span></li>
-            <li class="list-group-item">Amount of tip: <span id="tip-output"></span></li>
+            <li class="list-group-item">Amount of Tip: <span id="tip-output"></span></li>
             <li class="list-group-item italic">Total to be Paid: <span id="total-output"></span></li>
+            <li class="list-group-item italic">Total per Patron: <span id="patron-output"></span></li>
         </ul>
     </div>
-    <script src="~/dist/index.js" ></script>
+    <script src="~/dist/index.js"></script>
 </body>
 
 </html>
