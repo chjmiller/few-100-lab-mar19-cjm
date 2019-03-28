@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Webpack Showcase</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
 </head>
 
 <body>
@@ -17,19 +19,47 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">$</span>
             </div>
-            <input type="number" class="form-control" aria-label="Amount" id="bill-input" value=0>
+            <input type="number"
+                   class="form-control"
+                   aria-label="Amount"
+                   id="bill-input"
+                   value=0
+                   min=0>
             <div class="input-group-prepend">
                 <span class="input-group-text">Patrons</span>
             </div>
-            <input type="number" class="form-control" aria-label="Patrons" id="patron-input" value=1 min="1">
+            <input type="number"
+                   class="form-control"
+                   aria-label="Patrons"
+                   id="patron-input"
+                   value=1
+                   min=1>
         </div>
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-secondary" data-percent="10">10%</button>
-            <button type="button" class="btn btn-secondary" data-percent="15">15%</button>
-            <button type="button" class="btn btn-secondary" data-percent="20">20%</button>
-            <button type="button" class="btn btn-secondary" data-percent id="custom-percent-button">Custom</button>
-            <input type="number" class="form-control" hidden aria-label="Custom" id="custom-percent-input" min=0>
-            <div class="input-group-prepend" hidden id="custom-percent-caption">
+        <div class="btn-group"
+             role="group"
+             aria-label="Basic example">
+            <button type="button"
+                    class="btn btn-secondary"
+                    data-percent="10">10%</button>
+            <button type="button"
+                    class="btn btn-secondary"
+                    data-percent="15">15%</button>
+            <button type="button"
+                    class="btn btn-secondary"
+                    data-percent="20">20%</button>
+            <button type="button"
+                    class="btn btn-secondary"
+                    data-percent
+                    id="custom-percent-button">Custom</button>
+            <input type="number"
+                   class="form-control"
+                   hidden
+                   aria-label="Custom"
+                   id="custom-percent-input"
+                   min=0>
+            <div class="input-group-prepend"
+                 hidden
+                 id="custom-percent-caption">
                 <span class="input-group-text">%</span>
             </div>
         </div>

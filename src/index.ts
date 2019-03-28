@@ -16,6 +16,7 @@ const percentButtons = document.querySelectorAll(`[data-percent]`) as NodeListOf
 const customPercentButton = document.getElementById(`custom-percent-button`) as HTMLButtonElement;
 const customPercentInput = document.getElementById(`custom-percent-input`) as HTMLInputElement;
 const customPercentCaption = document.getElementById(`custom-percent-caption`);
+const inputElements = [billInput, customPercentInput, patronInput];
 
 function findButton(buttons: NodeListOf<HTMLButtonElement>, callbackfn: (value: HTMLButtonElement) => boolean) {
     let button: HTMLButtonElement;
@@ -37,7 +38,7 @@ function displayTip() {
 
     if (customPercentInput.value === ``)
         customPercentInput.value = button.dataset.percent;
-    
+
     const tipContent = billInput.valueAsNumber >= 0 ? calculateTip(percentText) : {
         classToggle: billInput.classList.add,
         percent: ``,
@@ -47,7 +48,7 @@ function displayTip() {
         patron: ``
     };
 
-    tipContent.classToggle.call(billInput.classList, `border-danger`);
+    //tipContent.classToggle.call(billInput.classList, `border-danger`);
     percentOutput.innerText = tipContent.percent;
     captionPercent.innerText = tipContent.percent;
     billOutput.innerText = tipContent.bill;
@@ -83,7 +84,18 @@ function onPatronChange() {
     displayTip();
 }
 
+function isInputValid(textbox: HTMLInputElement) {
+    return textbox.valueAsNumber >= parseInt(textbox.min);
+}
+
+function onNumericInputChange(e: Event) {
+    const textbox = e.target as HTMLInputElement;
+    const classToggle = isInputValid(textbox) ? textbox.classList.remove : textbox.classList.add;
+    classToggle.call(textbox.classList, `border-danger`);
+}
+
 function addInputListeners(eventName: string) {
+    inputElements.forEach(el => el.addEventListener(eventName, onNumericInputChange));
     billInput.addEventListener(eventName, displayTip);
     customPercentInput.addEventListener(eventName, displayTip)
     patronInput.addEventListener(eventName, onPatronChange);
