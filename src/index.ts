@@ -39,7 +39,7 @@ function displayTip() {
     if (customPercentInput.value === ``)
         customPercentInput.value = button.dataset.percent;
 
-    const tipContent = billInput.valueAsNumber >= 0 ? calculateTip(percentText) : {
+    const tipContent = inputElements.every(el => el.valueAsNumber >= 0) ? calculateTip(percentText) : {
         classToggle: billInput.classList.add,
         percent: ``,
         bill: ``,
@@ -48,7 +48,6 @@ function displayTip() {
         patron: ``
     };
 
-    //tipContent.classToggle.call(billInput.classList, `border-danger`);
     percentOutput.innerText = tipContent.percent;
     captionPercent.innerText = tipContent.percent;
     billOutput.innerText = tipContent.bill;
@@ -63,7 +62,6 @@ function calculateTip(percentText: string): TipContent {
     const patron = total / patronInput.valueAsNumber;
 
     return {
-        classToggle: billInput.classList.remove,
         percent: `${percentText}%`,
         bill: usd.format(billInput.valueAsNumber),
         tip: usd.format(tip),

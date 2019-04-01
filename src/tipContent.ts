@@ -4,5 +4,4 @@ export interface TipContent {
      bill: string;
      total: string;
      patron: string;
-     classToggle: (...tokens: string[]) => void;
 }
